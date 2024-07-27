@@ -1,0 +1,39 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facture</title>
+
+  <body>
+    <div class="ticket">
+        <h1>Facture</h1>
+        <p>Caissier(e) : {{obj.caissier}} <br>
+            Servant(e):{{obj.servante}} <br>
+          Date d'impression: {{ print_date }}</p>
+        <p>N°: {{ obj.id }}</p>
+        
+        <table>
+            <tr>
+                <th>item(s)</th>
+                <th>Prix unitaire</th>
+                <th>Quantité</th>
+            </tr>
+            {% for factureproduit in obj.factureproduit_set.all %}
+            <tr>
+                <td>{{ factureproduit.product.name }}</td>
+                <td>{{ factureproduit.product.price }}</td>
+                <td>{{ factureproduit.quantiter }}</td>
+            </tr>
+            {% endfor %}
+            <td colspan="3">Total : {{ total }} fc </td>
+           
+        </table>
+    </div>
+  
+  </body>
+</html>

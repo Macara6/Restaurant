@@ -1,0 +1,137 @@
+
+
+{% extends "base.html" %}
+
+
+
+{% block content %}
+
+<h2> Nouveau Produit </h2>
+
+<div class="mb-3 row">
+  <form  method="POST" action="">
+      {% csrf_token %}
+      
+    <div class="mb-3 row">
+      <label for="inputPassword" class="col-sm-2 col-form-label">Code Barre</label>
+      <div class="col-sm-10">
+        <input type="text" name="barcode" class="form-control" id="barcode">
+      </div>
+      
+      <label for="inputPassword" class="col-sm-2 col-form-label">Produit</label>
+      <div class="col-sm-10">
+          <input type="text" name="name" class="form-control" id="name">
+      </div>
+
+      <label for="inputPassword" class="col-sm-2 col-form-label">Prix</label>
+      <div class="col-sm-10">
+          <input type="number" name="price" class="form-control" id="price">
+      </div>
+
+
+      <label for="inputPassword" class="col-sm-2 col-form-label">Stock</label>
+      <div class="col-sm-10">
+          <input type="number" name="stock" class="form-control" id="stock" required>
+      </div>
+
+    <div class="d-grid gap-2 col-6 mx-auto">
+      <button class="btn p-2 mt-3 btn-success" type="submit">Ajouter</button>
+    </div>
+  </form>
+
+</div>
+<br>
+
+<div class="form-group ">
+    <input id="search" class="form-control" type="text" placeholder="Search....">
+</div>
+<br>
+
+
+
+<br>
+<div class="row">
+    <div class"col-md-12 text-center">
+      <div class="card card-body">
+        <table class="table mx-auto">
+            <h4> Stock </h4>
+          <thead>
+             <tr>
+              <th> #</th>
+               <th> Poduit(s)</th>
+                <th> Prix </th>
+                <th> Qt Stock </th>
+                <th> Code barre </th>
+                <th> Action </th>
+                <th>Edit</th>
+                <th>Add stock</th>
+              
+              </tr>
+           </thead>
+           <tbody id="myTable">
+       {% for product in products  %}
+      <tr>
+        <th>{{product.id}} </th>
+        <th>{{product.name}}</th>
+        <th> {{product.price}} fc</th>
+        <th> {{product.stock}}</th>
+        <th> {{product.barcode}} </th>
+             
+        <th> <a class='btn btn-sm btn-danger'  href="{% url "delect_produit" product.id %}"><i class="bi bi-trash"></i> Supprimer </a></th>
+        <th> <a class='btn btn-sm btn-warning'  href="{% url "editProduit" product.id %}"><i class="bi bi-trash"></i>Edit</a></th>
+        <th> <a class='btn btn-sm btn-warning'  href="{% url "addStock" product.id %}"><i class="bi bi-trash"></i>Add stock</a></th>
+     
+        {% endfor %}
+      </tr>
+      
+    </tbody> 
+   
+    </table>  
+
+    <div class="btn-group">
+      <span class="step-links">
+
+        {% if products.has_previous %}
+
+          <a href="?page=1" class="btn btn-outline-primary">&laquo; first</a>
+          <a href="?page={{products.previouspagenumber}}" class="btn btn-outline-primary" >previous</a>
+        {% endif %}
+        
+        <span class="current">
+          Page {{ products.number }} of {{ products.paginator.num_pages }}.
+        </span>
+        
+        {% if products.has_next %}
+          <a href="?page={{ products.next_page_number}}" class="btn btn-outline-primary">next</a>
+          <a href="?page={{ products.paginator.num_pages }}"   class="btn btn-outline-primary" >last &raquo;</a>
+        {% endif %}
+      </span>
+    </div>
+
+
+
+
+  </div>
+  </div>
+</div> 
+
+
+
+{% endblock  %}
+
+{% block script %}
+
+<script>
+
+    $(document).ready(function(){
+       $("#search").on("keyup", function(){
+          var value = $(this).val().toLowerCase();
+          $("#myTable tr").filter(function(){
+             $(this).toggle($(this).text().toLocaleLowerCase().indexOf(value)>-1)
+          });
+       });
+    });
+ 
+ </script>
+
+{% endblock  %}

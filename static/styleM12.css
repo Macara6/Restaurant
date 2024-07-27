@@ -1,0 +1,50 @@
+
+
+
+.main{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    text-align: center;
+
+}
+.menu{
+    width: 20%;
+    background-color: #514e4e;
+}
+#logo{
+    color: #fff;
+    font-size: 30px;
+    letter-spacing: 4px;
+    padding: 15px;
+    background-color: #000;
+
+}
+.menu a {
+    text-decoration: none;
+    color: #fff;
+    margin-bottom: 3px;
+    font-size: 18px;
+    letter-spacing: 2px;
+    display: list-item;
+    padding: 20px;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+
+}
+.menu a:hover {
+    background-color: rgb(127, 12, 41);
+    transition: 0.5s;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+}
+.body{
+    width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.menu a i { 
+    width: 250px;
+}
+
+

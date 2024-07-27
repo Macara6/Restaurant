@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<br>
+
+<div class="form-group">
+  <input id="search" class="form-control" required type="date" placeholder="Search by date....">
+  <button id="searchBtn" class="btn btn-primary">Search</button>
+</div>
+
+<br>
+
+<br>
+<div class="row">
+    <div class"col-md-12 text-center">
+      <div class="card card-body">
+        <table class="table mx-auto">
+          <thead>
+             <tr>
+              <th>#</th>
+               <th> servant(e)</th>
+               <th> Caissier </th>
+               <th> Total </th>
+               <th> Detail </th>
+               <th> Date time </th>
+               
+               </tr>
+           </thead>
+      <tbody id="myTable">
+        {% for facture in factures %}
+      <tr>
+        <th>{{facture.id}} </th>
+        <th>{{facture.servante}} </th>
+        <th> {{facture.caissier}}</th>
+        <th>{{facture.total}} Fc </th>
+        <th>{{facture.date_time}}  </th>
+        
+        <th> <a class='btn btn-sm btn-success'href="{% url "idFacture" facture.id %}"> Detail </a> </th>
+               
+     
+        {% endfor %}
+      </tr>
+      
+    </tbody> 
+   
+    </table>  
+
+
+    <div class="btn-group">
+      <span class="step-links">
+
+        {% if factures.has_previous %}
+
+          <a href="?page=1" class="btn btn-outline-primary">&laquo; first</a>
+          <a href="?page={{factures.previouspagenumber}}" class="btn btn-outline-primary" >previous</a>
+        {% endif %}
+        
+        <span class="current">
+          Page {{ factures.number }} of {{ factures.paginator.num_pages }}.
+        </span>
+        
+        {% if factures.has_next %}
+          <a href="?page={{ factures.next_page_number}}" class="btn btn-outline-primary">next</a>
+          <a href="?page={{ factures.paginator.num_pages }}" class="btn btn-outline-primary" >last &raquo;</a>
+        {% endif %}
+      </span>
+    </div>
+
+  </div>
+  </div>
+</div> 
+
+
+{% endblock  %}
+
+{% block script %}
+
+<script>
+  $(document).ready(function(){
+    $("#searchBtn").on("click", function(){
+        var searchDate = $("#search").val();
+        window.location.href = window.location.pathname + "?search_date=" + searchDate;
+    });
+});
+</script>
+
+
+
+{% endblock  %}

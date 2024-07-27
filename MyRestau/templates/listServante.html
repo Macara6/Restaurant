@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+
+{% block content  %}
+
+
+
+<br>
+<h3> Liste servant(e)s </h3>
+<br>
+<div class="row">
+    <div class"col-md-12 text-center">
+      <div class="card card-body">
+        <table class="table mx-auto">
+          <thead>
+             <tr>
+              <th>#</th>
+               <th> Nom</th>
+               <th> Phone </th>
+               <th> Action </th>            
+               </tr>
+           </thead>
+      <tbody id="myTable">
+        {% for servante in servantes %}
+      <tr>
+        <th>{{servante.id}} </th>
+        <th>{{servante.name}} </th>
+        <th> {{servante.phone}}</th>
+              
+        <th> <a class='btn btn-sm btn-danger'  href="{% url "delect_servante" servante.id %}"><i class="bi bi-trash"></i> Supprimer </a></th>
+     
+        {% endfor %}
+      </tr>
+      
+    </tbody> 
+   
+    </table>  
+
+
+    <div class="btn-group">
+      <span class="step-links">
+
+        {% if factures.has_previous %}
+
+          <a href="?page=1" class="btn btn-outline-primary">&laquo; first</a>
+          <a href="?page={{factures.previouspagenumber}}" class="btn btn-outline-primary" >previous</a>
+        {% endif %}
+        
+        <span class="current">
+          Page {{ factures.number }} of {{ factures.paginator.num_pages }}.
+        </span>
+        
+        {% if factures.has_next %}
+          <a href="?page={{ factures.next_page_number}}" class="btn btn-outline-primary">next</a>
+          <a href="?page={{ factures.paginator.num_pages }}" class="btn btn-outline-primary" >last &raquo;</a>
+        {% endif %}
+      </span>
+    </div>
+
+  </div>
+  </div>
+</div> 
+
+
+
+
+{% endblock  %}

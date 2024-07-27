@@ -1,0 +1,156 @@
+
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<h2> Facture  </h2>
+{% if user.is_superuser %}
+
+
+<div class="row" id="content">
+  <h2 class="resultat" id="resultat"></h2>
+
+    <div class"col-md-12 text-center">
+      <div class="card card-body">
+            <p> servant(e) : {{facture.servante}}<br>
+              servant(e) : {{facture.caissier}}</hp>
+            
+            <p> Boutique Dieu est grand </p>
+        
+            <table class="table mx-auto" id="tableau">
+   
+             <tr class="btn-warning">
+                <th> items(s)</th>
+                <th> PrixU </th>
+                <th> Qt </th>
+                <th>total </th>
+     
+             </tr>
+            <tbody>
+          {% for factureproduit in facture.factureproduit_set.all %}
+            <tr>
+                <th> {{ factureproduit.product.name }}</th>
+                <th>{{factureproduit.product.price }} fc</th>
+                <th>{{factureproduit.quantiter}} </th>
+                <th> </th>
+            </tr>
+            {% endfor %}
+             </tbody>
+            </table> 
+        </div>
+        <h3 class="btn" id="resultat"></h3>
+    </div>
+    <a class="btn btn-primary" href="{% url "generate_pdf" facture.id %}"> Imprimer</a>
+{% else %}
+<div class="mb-3 row">
+  <form  method="POST" action="">
+      {% csrf_token %}
+      
+      <div class="mb-3 row">
+      <label for="inputPassword" class="col-sm-2 col-form-label">Code Barre / Nom Produit</label>
+      <div class="col-sm-10">
+        <input type="text" name="barcode" class="form-control" id="barcode" required>
+      </div>
+
+      <label for="inputPassword" class="col-sm-2 col-form-label">Quantiter</label>
+      <div class="col-sm-10">
+          <input type="number" name="quantiter" class="form-control" id="Quantiter">
+      </div>
+
+    <div class="d-grid gap-2 col-6 mx-auto">
+      <button class="btn p-2 mt-3 btn-success" type="submit">Ajouter</button>
+    </div>
+  </form>
+
+</div>
+
+
+<div class="row" id="content">
+  <h2 class="resultat" id="resultat"></h2>
+
+    <div class"col-md-12 text-center">
+      <div class="card card-body">
+            <p> servant(e) : {{facture.servante}}<br>
+              servant(e) : {{facture.caissier}}</hp>
+            
+            <p> Boutique Dieu est grand </p>
+        
+            <table class="table mx-auto" id="tableau">
+   
+             <tr class="btn-warning">
+                <th> items(s)</th>
+                <th> PrixU </th>
+                <th> Qt </th>
+                <th>total </th>
+     
+             </tr>
+            <tbody>
+          {% for factureproduit in facture.factureproduit_set.all %}
+            <tr>
+                <th> {{ factureproduit.product.name }}</th>
+                <th>{{factureproduit.product.price }} fc</th>
+                <th>{{factureproduit.quantiter}} </th>
+                <th> </th>
+            </tr>
+            {% endfor %}
+             </tbody>
+            </table> 
+        </div>
+        <h3 class="btn" id="resultat"></h3>
+    </div>
+    <a class="btn btn-primary" href="{% url "generate_pdf" facture.id %}"> Imprimer</a>
+
+{% endif %}
+
+
+
+
+
+
+
+{% endblock  %}
+
+{% block  script%}
+
+<script>
+    var tableau = document.getElementById('tableau');
+    var rows = tableau.getElementsByTagName('tr');
+    
+    // Parcourir chaque ligne du tableau à l'exception de la première (en-tête)
+    for (var i = 1; i < rows.length; i++) {
+        var row = rows[i];
+        var cells = row.getElementsByTagName('th');
+    
+        var prixU = parseFloat(cells[1].innerText);
+        var qt = parseInt(cells[2].innerText);
+    
+        var total = prixU * qt;
+        cells[3].innerText = total.toFixed(2)+' fc'; 
+    }
+    let grandTotal = 0;
+    for (var i = 1; i < rows.length; i++) {
+        grandTotal += parseFloat(rows[i].getElementsByTagName('th')[3].innerText);
+    }
+    // Séparer le centaine et le dizaine du total
+    let totalSplit = grandTotal.toFixed(2).split('.');
+    let centaine = totalSplit[0];
+    let dizaine = totalSplit[1];
+
+
+// Séparer le nombre par ordre de centaine pour la bonne lecture
+let formattedTotal = '';
+for (let i = centaine.length - 1; i >= 0; i--) {
+    formattedTotal = centaine[i] + formattedTotal;
+    if ((centaine.length - i) % 3 === 0 && i !== 0) {
+        formattedTotal = ' ' + formattedTotal;
+    }
+}
+
+document.getElementById('resultat').innerText = 'Total: ' + formattedTotal + '.' + dizaine + ' Fc';
+  
+
+</script>
+
+
+{% endblock  %}

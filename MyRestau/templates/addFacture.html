@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+
+
+{% block content %}
+
+<br>
+<div class="card  mt-4 card-body">
+    <h2> Nouveau Facture </h2>
+      <form class="row g-3" method="POST">
+        {% csrf_token %}
+
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="customer"> Servate </label>
+                <select name="servante" class="form-control" id="customer">
+                    <option value=""></option>
+                    {% for servante in servantes %}
+                    <option value="{{servante.id}}">{{servante.name}}</option>
+                    {% endfor %}    
+                </select>
+            </div>
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary "  ><i class="fas fa-save"></i> Créer</button>
+         </div>
+      </form>
+ </div>
+
+
+
+
+<script>
+    function filterCustomers() {
+        const input = document.getElementById('customerSearch');
+        const filter = input.value.toLowerCase();
+        const select = document.getElementById('customer');
+        const options = select.options;
+        
+        // Afficher la liste déroulante si l'utilisateur a saisi quelque chose
+        if (filter) {
+            select.style.display = 'block';
+        } else {
+            select.style.display = 'none';
+        }
+    
+        // Parcourir les options de la liste et masquer celles qui ne correspondent pas
+        for (let i = 0; i < options.length; i++) {
+            const option = options[i];
+            if (option.value) {
+                const txtValue = option.textContent || option.innerText;
+                option.style.display = txtValue.toLowerCase().indexOf(filter) > -1 ? '' : 'none';
+            }
+        }
+    }
+    </script>
+   
+
+
+{% endblock  %}

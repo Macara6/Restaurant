@@ -1,0 +1,45 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<h2> Edit Product </h2>
+
+<div class="mb-3 row">
+  <form  method="POST" action="">
+      {% csrf_token %}
+      
+    <div class="mb-3 row">
+      <label for="inputPassword" class="col-sm-2 col-form-label">Code Barre</label>
+      <div class="col-sm-10">
+        <input type="text" name="barcode" class="form-control" id="barcode" value ="{{ product.barcode }}">
+      </div>
+      
+      <label for="inputPassword" class="col-sm-2 col-form-label">Produit</label>
+      <div class="col-sm-10">
+          <input type="text" name="name" class="form-control" id="name" value="{{ product.name }}">
+      </div>
+
+      <label for="inputPassword" class="col-sm-2 col-form-label">Prix</label>
+      <div class="col-sm-10">
+          <input type="number" name="price" class="form-control" id="price" value="{{ product.price }}">
+      </div>
+
+
+      <label for="inputPassword" class="col-sm-2 col-form-label">Stock</label>
+      <div class="col-sm-10">
+          <input type="number" name="stock" class="form-control" id="stock" value="{{ product.stock}}" required>
+      </div>
+
+    <div class="d-grid gap-2 col-6 mx-auto">
+      <button class="btn p-2 mt-3 btn-success" type="submit">Save Changes</button>
+    </div>
+  </form>
+
+</div>
+
+
+
+
+{% endblock  %}
