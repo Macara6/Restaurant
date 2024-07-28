@@ -15,9 +15,11 @@
                 <label for="customer"> Servate </label>
                 <select name="servante" class="form-control" id="customer">
                     <option value=""></option>
+
                     {% for servante in servantes %}
                     <option value="{{servante.id}}">{{servante.name}}</option>
-                    {% endfor %}    
+                    {% endfor %} 
+                       
                 </select>
             </div>
         </div>
